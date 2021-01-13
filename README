@@ -10,7 +10,7 @@ Run 'unhook' from Beacon
 
 Known issues:
 
-This alias will crash your Beacon if module stomping is enabled in your profile. There's no detection for this in the CNA script or work-around in the BOF.
+Unhook refreshes "everything". If you're module stomping--this would include that module. The unhook alias does detect if module stomping is enabled and report an error. Future improvements could limit which DLLs are refreshed to a list of high-interest DLLs or explicitly exclude our stomped module.
 
 To build:
 

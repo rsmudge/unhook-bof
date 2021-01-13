@@ -1,8 +1,16 @@
 alias unhook {
-	local('$barch $handle $data');
+	local('$barch $handle $data $stomp');
 
 	# figure out the arch of this session
 	$barch  = barch($1);
+
+	# if we're module stomping; don't run the unhook as-is because we'll walk over
+	# everything. We don't want that. A nice improvement would ask unhooker to skip stomped module.
+	$stomp = [data_query("metadata")["c2profile"] getString: ".stage.module_ $+ $barch"];
+	if ($stomp ne "") {
+		berror($1, "Can't unhook when .stage.module_ $+ $barch is set. :(");
+		return;
+	}
 
 	# read in the right BOF file
 	$handle = openf(script_resource("unhook. $+ $barch $+ .o"));
