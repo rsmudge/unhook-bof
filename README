@@ -8,6 +8,10 @@ Load unhook.cna into Cobalt Strike via Cobalt Strike -> Script Manager
 
 Run 'unhook' from Beacon
 
+Known issues:
+
+This alias will crash your Beacon if module stomping is enabled in your profile. There's no detection for this in the CNA script or work-around in the BOF.
+
 To build:
 
 x86: Open Visual Studio x86 Native Tools Command Prompt and type 'make'
