@@ -1,0 +1,21 @@
+alias unhook {
+	local('$barch $handle $data');
+
+	# figure out the arch of this session
+	$barch  = barch($1);
+
+	# read in the right BOF file
+	$handle = openf(script_resource("unhook. $+ $barch $+ .o"));
+	$data   = readb($handle, -1);
+	closef($handle);
+
+	btask($1, "Running unhook");
+
+	# run it.. 
+	beacon_inline_execute($1, $data, "go", $null);
+}
+
+beacon_command_register(
+	"unhook", 
+	"remove hooks from DLLs in this process", 
+	"Synopsis: unhook\n\nAttempt to remove hooks.");

@@ -1,0 +1,31 @@
+This is a Beacon Object File to refresh DLLs and remove their hooks. The code is from Cylance's Universal Unhooking research:
+
+https://blogs.blackberry.com/en/2017/02/universal-unhooking-blinding-security-software
+
+To use:
+
+Load unhook.cna into Cobalt Strike via Cobalt Strike -> Script Manager
+
+Run 'unhook' from Beacon
+
+To build:
+
+x86: Open Visual Studio x86 Native Tools Command Prompt and type 'make'
+x64: Open Visual Studio x64 Croos Tools Command Prompt and type 'make'
+
+This project derived from:
+
+Reflective DLL Injection
+BSD 3-Clause License
+Copyright (c) 2011, Stephen Fewer of Harmony Security (www.harmonysecurity.com)
+https://github.com/stephenfewer/ReflectiveDLLInjection
+
+ReflectiveDLLRefresher
+BSD 3-Clause License
+Copyright (c) 2017, Cylance Inc.
+https://github.com/CylanceVulnResearch/ReflectiveDLLRefresher
+
+Unhook Meterpreter Extension
+BSD-3-Clause License
+2006-2018, Rapid7, Inc.
+https://github.com/rapid7/metasploit-payloads/commits/master/c/meterpreter/source/extensions/unhook
