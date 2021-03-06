@@ -8,10 +8,6 @@ Load unhook.cna into Cobalt Strike via Cobalt Strike -> Script Manager
 
 Run 'unhook' from Beacon
 
-Known issues:
-
-Unhook refreshes "everything". If you're module stomping--this would include that module. The unhook alias does detect if module stomping is enabled and report an error. Future improvements could limit which DLLs are refreshed to a list of high-interest DLLs or explicitly exclude our stomped module.
-
 To build:
 
 x86: Open Visual Studio x86 Native Tools Command Prompt and type 'make'
