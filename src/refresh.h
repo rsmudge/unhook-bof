@@ -11,7 +11,7 @@
 #define OUTPUTDBGW(str)
 #endif
 
-void RefreshPE(void * out);
+void RefreshPE(void * out, char* stomp);
 HMODULE CustomLoadLibrary(const PWCHAR wszFullDllName, const PWCHAR wszBaseDllName, ULONG_PTR pDllBase);
 HMODULE CustomGetModuleHandleW(const PWSTR wszModule);
 FARPROC WINAPI CustomGetProcAddressEx(HMODULE hModule, const PCHAR lpProcName, PWSTR wszOriginalModule);
