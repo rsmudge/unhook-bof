@@ -8,6 +8,17 @@ alias unhook {
 	# everything. We don't want that. A nice improvement would ask unhooker to skip stomped module.
 	$stomp = [data_query("metadata")["c2profile"] getString: ".stage.module_ $+ $barch"];
 
+	if(size(@_) > 1) {
+		while(size(@_) > 1) {
+			$mod = lc([pop(@_) trim]);
+			if ('*.dll' !iswm $mod) {
+				$mod .= '.dll'
+			}
+
+			$stomp = $stomp . "," . $mod;
+		}
+	}
+
 	# read in the right BOF file
 	$handle = openf(script_resource("unhook. $+ $barch $+ .o"));
 	$data   = readb($handle, -1);
@@ -16,7 +27,7 @@ alias unhook {
 	# pack the arguments
 	$args = bof_pack($1, "z", $stomp);
 
-	btask($1, "Running unhook");
+	btask($1, "Running unhook.\n    Will skip these modules (first is stomped): " . join(', ', split(',', $stomp)));
 
 	# run it.. 
 	beacon_inline_execute($1, $data, "go", $args);
