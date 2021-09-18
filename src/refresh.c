@@ -39,7 +39,24 @@ void RefreshPE(void * buffer, char* stomp)
     PLDR_DATA_TABLE_ENTRY pLdteHead = NULL;
     PLDR_DATA_TABLE_ENTRY pLdteCurrent = NULL;
 
-    size_t beaconDllLength = strlen(stomp);
+    char skipModules[32][64];
+    size_t modulesToSkip = 0;
+
+    for(size_t i = 0; i < 32; i++) {
+        MSVCRT$memset(&skipModules[i], 0, 64);
+    }
+
+    char *comma = MSVCRT$strtok(stomp, ",");
+    
+    if(comma != NULL) {
+        while(comma != NULL) {
+            MSVCRT$strncpy(skipModules[modulesToSkip++], comma, 63);
+            comma = MSVCRT$strtok(NULL, ",");
+        }
+    }
+    else {
+        MSVCRT$strncpy(skipModules[modulesToSkip++], stomp, 63);
+    }
 
     dprintf("[REFRESH] Running DLLRefresher");
 
@@ -47,7 +64,18 @@ void RefreshPE(void * buffer, char* stomp)
     pLdteCurrent = pLdteHead;
 
     do {
-        if (pLdteCurrent->FullDllName.Length > 2 && !IsBeaconDLL(stomp, beaconDllLength, pLdteCurrent->BaseDllName.pBuffer, pLdteCurrent->BaseDllName.Length))
+        BOOL dllToSkip = FALSE;
+
+        for(size_t i = 0; i < modulesToSkip; i++)
+        {
+            if(IsBeaconDLL(skipModules[i], MSVCRT$strlen(skipModules[i]), pLdteCurrent->BaseDllName.pBuffer, pLdteCurrent->BaseDllName.Length))
+            {
+                dllToSkip = TRUE;
+                break;
+            }
+        }
+
+        if (pLdteCurrent->FullDllName.Length > 2 && !dllToSkip)
         {
             wszFullDllName = pLdteCurrent->FullDllName.pBuffer;
             wszBaseDllName = pLdteCurrent->BaseDllName.pBuffer;

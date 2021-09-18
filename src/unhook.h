@@ -19,7 +19,12 @@ DECLSPEC_IMPORT void     __cdecl  MSVCRT$free(void *_Memory);
 DECLSPEC_IMPORT errno_t  __cdecl  MSVCRT$mbstowcs_s(size_t *_PtNumOfCharConverted,wchar_t *_DstBuf,size_t _SizeInWords,const char *_SrcBuf,size_t _MaxCount);
 DECLSPEC_IMPORT int      __cdecl  MSVCRT$memcmp(const void *_Buf1,const void *_Buf2,size_t _Size);
 DECLSPEC_IMPORT size_t   __cdecl  MSVCRT$strnlen(const char *_Str,size_t _MaxCount);
+DECLSPEC_IMPORT size_t   __cdecl  MSVCRT$strlen(const char *_Str);
 DECLSPEC_IMPORT char *   __cdecl  MSVCRT$strstr(const char *_Str,const char *_SubStr);
+DECLSPEC_IMPORT char *   __cdecl  MSVCRT$strchr(const char * str, int character);
+DECLSPEC_IMPORT char *   __cdecl  MSVCRT$strtok ( char * str, const char * delimiters );
+DECLSPEC_IMPORT char *   __cdecl  MSVCRT$strncpy(char *_Str, const char *_SubStr, size_t num);
+DECLSPEC_IMPORT void *   __cdecl  MSVCRT$memset(void * ptr, int value, size_t num);
 DECLSPEC_IMPORT int      __cdecl  MSVCRT$vsprintf_s(char *buffer, size_t numberOfElements, const char *format, ...);
 
 #define _wcsnicmp MSVCRT$_wcsnicmp
