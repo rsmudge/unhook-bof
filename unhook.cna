@@ -36,4 +36,4 @@ alias unhook {
 beacon_command_register(
 	"unhook", 
 	"remove hooks from DLLs in this process", 
-	"Synopsis: unhook\n\nAttempt to remove hooks.");
+	"Synopsis: unhook [[skip-module1] [... [skip-moduleN]]]\n\nAttempt to remove hooks from all DLLs except from modules specified as optional parameters.\nExample use:\n\tbeacon> unhook amsi wldp\nwill not unhook amsi.dll and wldp.dll that might have been intentionally patched by our tooling.");
